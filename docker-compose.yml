@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+  serveur:
+    build:
+      context: ./serveur
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 'votre_mot_de_passe'
+      MYSQL_DATABASE: crm_cemeca

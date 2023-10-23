@@ -30,12 +30,12 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 //syncroniser la base de donner
 
-/*
+
 const db = require("./models");
 db.sequelize.sync({force: true}).then(() => {
   console.log('Drop and Resync Db');
 });
-*/
+
 
 
 //routes
