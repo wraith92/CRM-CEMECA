@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "votre_mot_de_passe",
+    "password": null,
     "database": "crm_cemeca",
-    "host": "db",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "votre_mot_de_passe",
+    "password": null,
     "database": "database_test",
-    "host": "db",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "votre_mot_de_passe",
-    "database": "crm_cemeca",
-    "host": "db",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   }
 }

@@ -15,8 +15,6 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
-db.sequelize = sequelize;
-db.societe = require("../models/societe.model.js")(sequelize, Sequelize);
 
 fs
   .readdirSync(__dirname)
@@ -41,5 +39,7 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.ROLES = ["1", "2", "3"];
 
 module.exports = db;

@@ -29,17 +29,36 @@ connection.connect(function(err) {
 app.get('/', (req, res) => res.send('Hello World!'));
 
 //syncroniser la base de donner
-
-
+/*
 const db = require("./models");
+const Role = db.Role;
+function initial(){
+  Role.create({
+    id: 1,
+    name: "cemeca"
+  });
+  Role.create({
+    id: 2,
+    name: "admin"
+  });
+  Role.create({
+    id: 3,
+    name: "superadmin"
+  });
+}
+
 db.sequelize.sync({force: true}).then(() => {
   console.log('Drop and Resync Db');
+  initial();
 });
-
+*/
 
 
 //routes
 require('./routes/societe.route')(app);
+require('./routes/auth.route')(app);
+require('./routes/user.route')(app);
+
 //listen port
 app.listen(PORT, () => {
     console.log(`Server is running `,PORT,"cors",process.env.HOST);
