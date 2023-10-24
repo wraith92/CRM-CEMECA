@@ -6,11 +6,12 @@ function UserScreen() {
     const dispatch = useDispatch();
     const users = useSelector(state => state.users.users);
     const loading = useSelector(state => state.users.loading);
-    console.log(users);
+    const error = useSelector(state => state.users.error);
 
     useEffect(() => {
         dispatch(fetchUsers());
     }, [dispatch]);
+    console.log(users);
 
     return (
         <div>
@@ -20,13 +21,18 @@ function UserScreen() {
                     <span className="sr-only">Loading...</span>
                 </div>
             ) : (
-                users.map((user) => (
-                    <div key={user.id}>
-                        <p>Nom: {user.username}</p>
-                        <p>Prénom: {user.email}</p>
-                        {/* Autres détails de la société */}
-                    </div>
-                ))
+                <>
+                    {error && <p className="text-danger">{error}</p>}
+                    {users.map((user) => (
+                        <div key={user.id}>
+                            <p>ID : {user.id}</p>
+                            <p>Nom d'utilisateur : {user.username}</p>
+                            <p>Email : {user.email}</p>
+                            <p>Date de création : {user.createdAt}</p>
+                            {/* Ajoutez d'autres détails si nécessaire */}
+                        </div>
+                    ))}
+                </>
             )}
         </div>
     );
