@@ -5,6 +5,7 @@ import { FETCH_SOCIETE_FAILURE } from "../constants/actionTypes";
 const initialState = {
   societes: [],
   error: null,
+  loading: false,
 };
 
 export default function societeReducer(state = initialState, action) {
@@ -12,12 +13,16 @@ export default function societeReducer(state = initialState, action) {
     case FETCH_SOCIETE_SUCCESS:
       return {
         ...state,
-        societes: action.payload,
+        societes: action.payload.data,
+        error: null,
+        loading: false,
       };
     case FETCH_SOCIETE_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        error: action.payload.message,
+        loading: false,
+        societes: [],
       };
     default:
       return state;

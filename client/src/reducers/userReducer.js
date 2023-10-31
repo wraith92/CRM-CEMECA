@@ -11,8 +11,7 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_USER_SUCCESS:
-    console.log(action.payload.data.data); // Vérifiez si les données sont correctes
+        case FETCH_USER_SUCCESS: // Vérifiez si les données sont correctes
     return {
         ...state,
         users: action.payload.data.data,

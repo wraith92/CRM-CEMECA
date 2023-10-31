@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_utili',
         sourceKey: 'id'
       });
+      // Association avec le modèle Interlocuteur
+      User.hasMany(models.Interlocuteur, {
+        foreignKey: 'id_utili',
+        sourceKey: 'id'
+      });
+      // Association avec le modèle Action
+      User.hasMany(models.Action, {
+        foreignKey: 'id_utili',
+        sourceKey: 'id'
+      });
     }
   }
   User.init({

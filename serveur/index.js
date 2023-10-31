@@ -54,10 +54,13 @@ db.sequelize.sync({force: true}).then(() => {
 */
 
 
+
 //routes
 require('./routes/societe.route')(app);
 require('./routes/auth.route')(app);
 require('./routes/user.route')(app);
+require('./routes/interlocuteur.route')(app);
+require('./routes/action.route')(app);
 
 //listen port
 app.listen(PORT, () => {

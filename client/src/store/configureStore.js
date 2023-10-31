@@ -6,10 +6,20 @@ import thunk from 'redux-thunk';
 // Importez chaque reducer individuellement
 import societeReducer from '../reducers/societeReducer';
 import userReducer from '../reducers/userReducer';
+import authReducer from '../reducers/authReducer';
+import userLoginReducers from '../reducers/userLoginReducers';
+import actionReducer from '../reducers/actionReducer';
+import interlocuteurReducer from '../reducers/interlocuteurReduceur';
 // Combinez les reducers
+
+
 const rootReducer = combineReducers({
+  actions: actionReducer,
+  interlocuteurs: interlocuteurReducer,
   societes: societeReducer,
   users: userReducer,
+  auth: authReducer,
+  userLogin: userLoginReducers,
   // Ajoutez d'autres reducers ici si nécessaire
 });
 const middelware =[thunk];

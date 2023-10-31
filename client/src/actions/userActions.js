@@ -1,8 +1,8 @@
-import axios from 'axios';
 import {
     FETCH_USER_SUCCESS,
     FETCH_USER_FAILURE,
 } from "../constants/user.constants";
+import UserService from '../service/UserService';
 
 export const fetchUsersSuccess = (data) => {
     return {
@@ -25,7 +25,7 @@ export const fetchUsersFailure = (message) => {
 
 export const fetchUsers = () => {
     return (dispatch) => {
-        axios.get('http://localhost:8080/api/user/all')
+        UserService.getAllUsers() // Utilisation de UserService pour récupérer les utilisateurs
             .then(response => {
                 dispatch(fetchUsersSuccess(response.data));
             })
