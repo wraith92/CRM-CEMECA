@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import io from 'socket.io-client';
+const socket = io('http://localhost:8080');
 const API_URL = 'http://localhost:8080/api/auth/';
 
 const AuthService = {
@@ -21,7 +22,9 @@ const AuthService = {
 
       if (response.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(response.data));
+
       }
+      socket.emit('userConnected', response.data.id);
 
       return response.data;
     } catch (error) {
@@ -30,6 +33,10 @@ const AuthService = {
   },
 
   logout: () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      socket.emit('userDisconnected', user.id); // Émettre un événement Socket.io lors de la déconnexion
+    }
     localStorage.removeItem('user');
   },
 

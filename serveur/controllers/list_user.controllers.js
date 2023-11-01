@@ -5,15 +5,32 @@ const Role = db.Role;
 exports.findAll = async (req, res) => {
   try {
     const usersWithRoles = await User.findAll({
-      include: Role, // Include the Role model
+      include: Role,
     });
-    
-    const formattedUsers = usersWithRoles.map(user => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      roles: user.Roles.map(role => role.name), // Assuming roles have a 'name' property
-    }));
+
+    const { connectedUsers } = require('../middleware/socket');
+ // Importez socket et connectedUsers
+
+    const formattedUsers = usersWithRoles.map(user => {
+      console.log(connectedUsers, 'connectedUsers');
+      const formattedUser = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        roles: user.Roles ? user.Roles.map(role => role.name) : [], // Vérifiez si user.Roles est défini
+        connectedDate: null,
+        isConnected: false
+      };
+      console.log(connectedUsers[user.id], 'connectedUsers[user.id]');
+
+      if (connectedUsers && connectedUsers[user.id]) {
+        formattedUser.connectedDate = connectedUsers[user.id].date;
+        formattedUser.isConnected = true;
+      }
+
+      return formattedUser;
+    });
+
 
     res.send({ message: 'Liste des utilisateurs :)', data: formattedUsers });
   } catch (err) {
@@ -22,6 +39,7 @@ exports.findAll = async (req, res) => {
     });
   }
 }
+
 exports.findOne = async (req, res) => {
     try {
       const { id } = req.params;
@@ -32,14 +50,14 @@ exports.findOne = async (req, res) => {
         message: err.message || "Une erreur s'est produite lors de la récupération de l'utilisateur."
       });
     }
-  } 
+  }
   exports.update = async (req, res) => {
     try {
       const { id } = req.params;
       const [updated] = await User.update(req.body, {
         where: { id: id }
       });
-  
+
       if (updated) {
         const updatedUser = await User.findByPk(id);
         res.send({ message: "L'utilisateur a été mis à jour avec succès.", data: updatedUser });
@@ -58,7 +76,7 @@ exports.findOne = async (req, res) => {
       const deleted = await User.destroy({
         where: { id: id }
       });
-  
+
       if (deleted) {
         res.send({ message: "L'utilisateur a été supprimé avec succès." });
       } else {
@@ -70,5 +88,4 @@ exports.findOne = async (req, res) => {
       });
     }
   };
-  
-  
+

@@ -1,14 +1,19 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const http = require('http'); // Ajoutez cette ligne
+const server = http.createServer(app);
+
+
 //routes
 
 //dotenv permet de cacher les informations de connexion à la base de données
 require('dotenv').config();
 const PORT = process.env.PORT || 8080 ;
-app.use(express.json()); 
-//cors permet de faire des requêtes depuis un autre domaine que celui du serveur    
+app.use(express.json());
+//cors permet de faire des requêtes depuis un autre domaine que celui du serveur
 app.use(cors());
+
 //connexion à la base de données
 let mysql = require('mysql2');
 const connection = mysql.createConnection({
@@ -22,7 +27,7 @@ connection.connect(function(err) {
     if (err) {
       return console.error('error: ' + err.message);
     }
-  
+
     console.log('Connected to the MySQL server.');
   });
 
@@ -51,8 +56,8 @@ db.sequelize.sync({force: true}).then(() => {
   console.log('Drop and Resync Db');
   initial();
 });
-*/
 
+*/
 
 
 //routes
@@ -62,7 +67,21 @@ require('./routes/user.route')(app);
 require('./routes/interlocuteur.route')(app);
 require('./routes/action.route')(app);
 
+
+//socket io
+// ...
+const { authJwt, verifySignUp, socket } = require('./middleware'); // Assurez-vous d'importer socket
+
+// ...
+
+//socket io
+socket(server);
+
+// ...
+
+
+
 //listen port
-app.listen(PORT, () => {
-    console.log(`Server is running `,PORT,"cors",process.env.HOST);
-  });
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

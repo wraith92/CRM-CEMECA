@@ -4,11 +4,12 @@ import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminScreen from './screen/AdminScreen';
 import LoginScreen from './screen/LoginScreen';
-import SocieteScreen from './screen/SocieteScreen';
-import UserScreen from './screen/UserScreen';
+import SocieteScreen from './screen/societeScreen';
+import UserScreen from './screen/userScreen';
 import InterlocuteurScreen from './screen/InterlocuteurScreen';
 import ActionScreen from './screen/ActionScreen';
-import NavbarComponent from './components/navbar'; // Add this line
+import NavbarComponent from './components/navbar';
+import RegisterScreen from './screen/RegisterScreen'; // Add this line
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
             <Route path='/interlocuteurs' element={<InterlocuteurScreen />} />
             <Route path='/admin' element={<AdminScreen />} />
             <Route path='/login' element={<LoginScreen />} />
+            <Route path='/register' element={<RegisterScreen />} />
             <Route path='/' element={<SocieteScreen />} />
             <Route path='/users' element={<UserScreen />} />
           </Routes>

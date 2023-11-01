@@ -10,10 +10,12 @@ import authReducer from '../reducers/authReducer';
 import userLoginReducers from '../reducers/userLoginReducers';
 import actionReducer from '../reducers/actionReducer';
 import interlocuteurReducer from '../reducers/interlocuteurReduceur';
+import registerReducer from '../reducers/registerReducer';
 // Combinez les reducers
 
 
 const rootReducer = combineReducers({
+  register: registerReducer,
   actions: actionReducer,
   interlocuteurs: interlocuteurReducer,
   societes: societeReducer,

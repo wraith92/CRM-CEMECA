@@ -5,6 +5,8 @@ const Role = db.Role;
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const Op = db.Sequelize.Op;
+const io = require('socket.io-client');
+const socket = io('http://localhost:8080');
 require('dotenv').config();
 exports.signup = (req, res) => {
   console.log(req.body.roles, 'dahdha')
@@ -83,6 +85,8 @@ exports.signin = async (req, res) => {
             roles: authorities,
             accessToken: token
             });
+             // Émettre un événement Socket.io lorsque l'utilisateur se connecte
+             socket.emit('userConnected', user.id);
         });
 
     }catch (err) {
