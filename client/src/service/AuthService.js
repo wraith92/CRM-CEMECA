@@ -19,6 +19,7 @@ const AuthService = {
         username,
         password
       });
+      console.log(response.data.accessToken, 'response.data');
 
       if (response.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(response.data));

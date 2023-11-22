@@ -24,8 +24,18 @@ const rootReducer = combineReducers({
   userLogin: userLoginReducers,
   // Ajoutez d'autres reducers ici si nécessaire
 });
+
+const userinfoFromStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
+
+const initialState = {
+  userLogin: {userInfo: userinfoFromStorage}
+
+};
+
 const middelware =[thunk];
 
-const store = createStore(rootReducer,composeWithDevTools(applyMiddleware(...middelware)));
+const store = createStore(rootReducer,initialState,
+  composeWithDevTools(applyMiddleware(...middelware)));
 
 export default store;

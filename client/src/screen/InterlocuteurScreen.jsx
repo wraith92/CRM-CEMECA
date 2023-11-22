@@ -4,6 +4,7 @@ import { listInterlocuteur } from '../actions/interlocuteurAction';
 import TableComponent from '../components/TableComponent';
 import SearchComponent from '../components/SearchComponent';
 import Loader from '../components/Loader';
+import { columns,headers } from '../data/DataInterlocuteur';
 function InterlocuteurScreen() {
     const dispatch = useDispatch();
     const interlocuteurs = useSelector((state) => state.interlocuteurs.interlocuteurs);
@@ -17,8 +18,7 @@ function InterlocuteurScreen() {
     }, [dispatch]);
 
 
-    const headers = ['ID', 'Nom', 'Prenom', 'Email', 'Telephone', 'Fonction', 'Societe'];
-    const columns = ['id', 'nom', 'prenom', 'email', 'telephone', 'fonction', 'societe'];
+
     const handleSearch = (searchTerm) => {
         setSearchTerm(searchTerm);
         if (searchTerm !== '') {

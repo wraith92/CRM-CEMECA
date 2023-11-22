@@ -74,10 +74,9 @@ const { authJwt, verifySignUp, socket } = require('./middleware'); // Assurez-vo
 
 // ...
 
-//socket io
 socket(server);
 
-// ...
+
 
 
 

@@ -15,25 +15,41 @@ const GenericForm = ({ fields, onSubmit }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      {fields.map((field) => (
-        <Form.Group as={Row} key={field.name}>
-          <Form.Label column sm={2}>
-            {field.label}
-          </Form.Label>
-          <Col sm={10}>
+    {fields.map((field) => (
+      <Form.Group as={Row} key={field.name}>
+        <Form.Label column sm={2}>
+          {field.label}
+        </Form.Label>
+        <Col sm={10}>
+          {field.type === 'select' ? (
             <Form.Control
+              as='select'
+              value={formData[field.name] || ''}
+              onChange={(e) => handleChange(e, field.name)}
+            >
+              {field.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Form.Control>
+          ) : (
+            <Form.Control
+              as={field.as}
               type={field.type || 'text'}
               placeholder={field.placeholder}
               value={formData[field.name] || ''}
               onChange={(e) => handleChange(e, field.name)}
             />
-          </Col>
-        </Form.Group>
-      ))}
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+          )}
+        </Col>
+      </Form.Group>
+    ))}
+    <Button variant="primary" type="submit">
+      Submit
+    </Button>
+  </Form>
+  
   );
 };
 

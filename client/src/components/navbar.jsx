@@ -6,9 +6,9 @@ import { useDispatch,useSelector } from 'react-redux'
 import  {logout} from '../actions/authAction'
 const NavbarComponent = () => {
     const dispatch=useDispatch();
-    const auth=useSelector(state=>state.auth);
-    const {user}=auth;
+    const user=useSelector(state=>state.userLogin.userInfo);
     const isAdmin = user && user.roles.includes('ROLE_SUPERADMIN');
+    const isCemeca = user && user.roles.includes('ROLE_CEMECA');
     const logoutHandler=()=>{
       dispatch(logout());
     }
@@ -32,6 +32,7 @@ const NavbarComponent = () => {
             </Nav.Link>
           )}
           {isAdmin && <Nav.Link as={Link} to="/admin">Admin</Nav.Link>}
+          {isCemeca && <Nav.Link as={Link} to="/cemeca">Cemeca</Nav.Link>}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

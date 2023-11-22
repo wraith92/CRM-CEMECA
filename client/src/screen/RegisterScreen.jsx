@@ -6,6 +6,8 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import GenericForm from "../components/GenericForm";
+import { fields } from "../data/GFRegisterFields";
 
 function RegisterScreen() {
     const [name, setName] = useState('')
@@ -20,6 +22,7 @@ function RegisterScreen() {
     const redirect = location.search ? location.search.split('=')[1] : '/'
     const userRegister = useSelector(state => state.register)
     const { loading, error, userInfo } = userRegister
+
     useEffect(() => {
         if (userInfo) {
             setTimeout(() => {
@@ -28,14 +31,19 @@ function RegisterScreen() {
 
         }
     }, [navigate, redirect, userInfo])
-    const submitHandler = (e) => {
-        e.preventDefault()
+    const submitHandler = (formData) => {
+        const { password, confirmPassword } = formData;
+    
         if (password !== confirmPassword) {
-            setMessage('Passwords do not match')
+          setMessage('Passwords do not match');
         } else {
-            dispatch(register(name, email, password, role))
+          // Use formData.role instead of the role state
+          dispatch(register(formData.username, formData.email, formData.password, formData.role));
         }
-    }
+      };
+    const AddUserForm = ({ onSubmit }) => {
+        return <GenericForm fields={fields} onSubmit={onSubmit} />;
+      };
     return (
         <FormContainer>
             <h1>
@@ -45,58 +53,7 @@ function RegisterScreen() {
             {error && <Message variant='danger'>{error.message}</Message>}
             {userInfo && <Message variant='success'>Register Success</Message>}
             {loading && <Loader />}
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId='username'>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type='username'
-                        placeholder='Enter username'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Enter email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId='role'>
-                    <Form.Label>Role</Form.Label>
-                    <Form.Control
-                        as='select'
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                    >
-                        <option value='3'>User</option>
-                        <option value='1'>Admin</option>
-                    </Form.Control>
-                </Form.Group>
-                <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Enter password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Confirm password'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                <Button type='submit' variant='primary'>
-                    Register
-                </Button>
-            </Form>
+            <AddUserForm fields={fields} onSubmit={submitHandler} />
         </FormContainer>
     )
 }
