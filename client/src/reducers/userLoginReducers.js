@@ -3,7 +3,10 @@ import {
     USER_LOGIN_SUCCESS,
 } from "../constants/user.login";
 const initialState = {
-    user: [],
+    user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : null
+  ,
     loading: false,
 };
 

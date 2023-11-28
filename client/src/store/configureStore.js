@@ -1,9 +1,9 @@
 // src/store/configureStore.js
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-// Importez chaque reducer individuellement
+// Import each reducer individually
 import societeReducer from '../reducers/societeReducer';
 import userReducer from '../reducers/userReducer';
 import authReducer from '../reducers/authReducer';
@@ -11,9 +11,8 @@ import userLoginReducers from '../reducers/userLoginReducers';
 import actionReducer from '../reducers/actionReducer';
 import interlocuteurReducer from '../reducers/interlocuteurReduceur';
 import registerReducer from '../reducers/registerReducer';
-// Combinez les reducers
 
-
+// Combine the reducers
 const rootReducer = combineReducers({
   register: registerReducer,
   actions: actionReducer,
@@ -22,20 +21,27 @@ const rootReducer = combineReducers({
   users: userReducer,
   auth: authReducer,
   userLogin: userLoginReducers,
-  // Ajoutez d'autres reducers ici si nécessaire
+  // Add other reducers here if necessary
 });
 
-const userinfoFromStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+// Check if localStorage is empty
+const userinfoFromStorage = localStorage.getItem('user')
+  ? JSON.parse(localStorage.getItem('user'))
+  : null;
 
-
+// Set initialState based on localStorage
 const initialState = {
-  userLogin: {userInfo: userinfoFromStorage}
-
+  auth: { userInfo: userinfoFromStorage },
 };
 
-const middelware =[thunk];
 
-const store = createStore(rootReducer,initialState,
-  composeWithDevTools(applyMiddleware(...middelware)));
+const middleware = [thunk];
+
+// Create the Redux store
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
 export default store;

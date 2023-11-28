@@ -58,6 +58,13 @@ db.sequelize.sync({force: true}).then(() => {
 });
 
 */
+// Import socket middleware
+const { initSocket } = require('./middleware/socket');
+
+// Initialize socket with the server
+const { io, connectedUsers } = initSocket(server);
+const userRoutes = require('./routes/user.route')(io, connectedUsers);
+app.use(userRoutes);
 
 
 //routes
@@ -68,13 +75,6 @@ require('./routes/interlocuteur.route')(app);
 require('./routes/action.route')(app);
 
 
-//socket io
-// ...
-const { authJwt, verifySignUp, socket } = require('./middleware'); // Assurez-vous d'importer socket
-
-// ...
-
-socket(server);
 
 
 

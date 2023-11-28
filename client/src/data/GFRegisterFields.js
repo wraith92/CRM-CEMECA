@@ -9,8 +9,10 @@ export const fields = [
       placeholder: 'Select role',
       type: 'select',
       options: [
-        { value: '1', label: 'User' },
-        { value: '3', label: 'Admin' },
+        { value: 0, label: 'Choisir un Role' },
+        { value: 1, label: 'Cemeca' },
+        { value: 2, label: 'Admin' },
+        { value: 3, label: 'Super Admin' },
       ],
     },
   ];

@@ -6,9 +6,12 @@ import { useDispatch,useSelector } from 'react-redux'
 import  {logout} from '../actions/authAction'
 const NavbarComponent = () => {
     const dispatch=useDispatch();
-    const user=useSelector(state=>state.userLogin.userInfo);
-    const isAdmin = user && user.roles.includes('ROLE_SUPERADMIN');
-    const isCemeca = user && user.roles.includes('ROLE_CEMECA');
+    const user=useSelector(state=>state.auth.userInfo);
+    console.log(user);
+    const isAdmin = user && user.roles && Array.isArray(user.roles) && user.roles.includes('ROLE_SUPERADMIN');
+  const isCemeca = user && user.roles && Array.isArray(user.roles) && user.roles.includes('ROLE_CEMECA');
+    console.log(isCemeca);
+    
     const logoutHandler=()=>{
       dispatch(logout());
     }

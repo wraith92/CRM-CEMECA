@@ -23,8 +23,8 @@ function UserScreen() {
       setFilteredUsers(filtered);
     };
 
-    const headers = ['#', 'Username', 'Email', 'Roles'];
-    const columns = ['id', 'username', 'email', 'roles'];
+    const headers = [ 'Nom', 'Email', 'Roles', 'Status' , 'Date de connexion'];
+    const columns = [ 'username', 'email', 'roles','isConnected', 'connectedDate'];
 
     return (
         <>

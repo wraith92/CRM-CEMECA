@@ -7,54 +7,52 @@ import {
     REGISTER_REQUEST,
     LOGOUT,
 } from "../constants/auth.constants";
-const intialState = {
-    user: null,
-    loading : false,
+
+const initialState = {
+    userInfo: localStorage.getItem('user')
+        ? JSON.parse(localStorage.getItem('user'))
+        : null,
+    loading: false,
 };
 
-export default function authReducer(state = intialState, action) {
-    const { type, payload } = action;
-
-    switch (type) {
-        case REGISTER_SUCCESS:
-            return {
-            ...state,
-            user: payload.user,
-            loading: false,
-            };
+export default function authReducer(state = initialState, action) {
+    switch (action.type) {
         case REGISTER_REQUEST:
             return {
-            ...state,
-            loading: true,
+                ...state,
+                loading: true,
+            };
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                userInfo: action.payload,
+                loading: false,
             };
         case REGISTER_FAIL:
             return {
-            ...state,
-            user: null,
-            loading: false,
-            
-            };
-        case LOGIN_SUCCESS:
-            return {
-            ...state,
-            user: payload.user,
-            loading: false,
+                ...state,
+                loading: false,
             };
         case LOGIN_REQUEST:
             return {
-            ...state,
-            loading: true,
+                ...state,
+                loading: true,
+            };
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                userInfo: action.payload,
+                loading: false,
             };
         case LOGIN_FAIL:
             return {
-            ...state,
-            error: payload,
-            loading: false,
+                ...state,
+                loading: false,
             };
         case LOGOUT:
             return {
-            ...state,
-            user: null,
+                ...state,
+                userInfo: null,
             };
         default:
             return state;

@@ -39,6 +39,7 @@ function RegisterScreen() {
         } else {
           // Use formData.role instead of the role state
           dispatch(register(formData.username, formData.email, formData.password, formData.role));
+          console.log(formData);
         }
       };
     const AddUserForm = ({ onSubmit }) => {
