@@ -50,6 +50,7 @@ function initSocket(server) {
         console.log(`L'utilisateur ${userId} s'est reconnecté`);
         console.log('connectedUsers[userId].disconnectedDate', connectedUsers[userId].disconnectedDate);
         connectedUsers[userId].disconnectedDate = null;
+        
       }
 
       connectedUsers[userId] = user;
@@ -57,14 +58,12 @@ function initSocket(server) {
     });
 
     socket.on('userDisconnected', ({ userId, disconnectedDate }) => {
-      console.log(`L'utilisateur ${userId} s'est déconnecté à ${disconnectedDate}`);
-      console.log('Calling timeDifference with disconnectedDate', disconnectedDate);
-      console.log('timeDifference(disconnectedDate)', timeDifference(disconnectedDate));
   
       if (connectedUsers[userId]) {
         connectedUsers[userId].disconnectedDate = timeDifference(disconnectedDate);
-        delete connectedUsers[userId];
+        connectedUsers[userId].connected = false;
         io.emit('updatedUserList', Object.values(connectedUsers));
+       
       }
     });
   });

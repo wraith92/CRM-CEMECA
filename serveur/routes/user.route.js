@@ -11,6 +11,7 @@ module.exports = (io, connectedUsers) => {
   router.get("/api/user/:id", (req, res) => ListeUser.findOne(req, res, io, connectedUsers));
   router.put("/api/user/:id", (req, res) => ListeUser.update(req, res, io, connectedUsers));
   router.delete("/api/user/:id", (req, res) => ListeUser.delete(req, res, io, connectedUsers));
+  router.post("/api/user", (req, res) => ListeUser.create(req, res, io, connectedUsers));
 
   // Uncomment the following routes if needed
   /*

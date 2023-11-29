@@ -12,11 +12,11 @@ const UserService = {
   },
 
   updateUser: (id, userData) => {
-    return axios.put(API_URL + `update/${id}`, userData);
+    return axios.put(API_URL + `${id}`, userData);
   },
 
   deleteUser: (id) => {
-    return axios.delete(API_URL + `delete/${id}`);
+    return axios.delete(API_URL + `${id}`);
   }
 };
 

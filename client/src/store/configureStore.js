@@ -20,7 +20,6 @@ const rootReducer = combineReducers({
   societes: societeReducer,
   users: userReducer,
   auth: authReducer,
-  userLogin: userLoginReducers,
   // Add other reducers here if necessary
 });
 

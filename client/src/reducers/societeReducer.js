@@ -1,6 +1,6 @@
 // reducers/societeReducer.js
-import { FETCH_SOCIETE_SUCCESS } from "../constants/actionTypes";
-import { FETCH_SOCIETE_FAILURE } from "../constants/actionTypes";
+import { FETCH_SOCIETE_SUCCESS } from "../constants/societe.constant";
+import { FETCH_SOCIETE_FAILURE } from "../constants/societe.constant";
 
 const initialState = {
   societes: [],

@@ -1,9 +1,11 @@
 // userController.js
 
+const e = require('cors');
 const { io, connectedUsers } = require('../middleware/socket'); // Adjust the path accordingly
 const db = require('../models');
 const User = db.User;
 const Role = db.Role;
+const bcrypt = require('bcryptjs');
 
 exports.findAll = async (req, res) => {
   try {
@@ -18,16 +20,18 @@ exports.findAll = async (req, res) => {
         email: user.email,
         roles: user.Roles ? user.Roles.map(role => role.name) : [],
         connectedDate: null,
-        disconnectedDate: null,  // Ajoutez cette propriété
-        isConnected: false
+        disconnectedDate: null,
+        isConnected: false,
       };
 
-      console.log(connectedUsers, 'connectedUsers[user.id]');
-
       if (connectedUsers && connectedUsers[user.id]) {
-        formattedUser.connectedDate = connectedUsers[user.id].date;
-        formattedUser.disconnectedDate = connectedUsers[user.id].disconnectedDate; // Utilisez la date de déconnexion si disponible
-        formattedUser.isConnected = true;
+        if (connectedUsers[user.id].disconnectedDate) {
+          formattedUser.disconnectedDate = connectedUsers[user.id].disconnectedDate;
+        } else {
+          formattedUser.connectedDate = connectedUsers[user.id].connectedDate;
+          formattedUser.isConnected = true;
+
+        }
       }
 
       return formattedUser;
@@ -55,15 +59,40 @@ exports.findOne = async (req, res) => {
       });
     }
   }
-  exports.update = async (req, res) => {
+
+exports.update = async (req, res) => {
     try {
       const { id } = req.params;
-      const [updated] = await User.update(req.body, {
+  
+      // Créez un objet avec les données à mettre à jour
+      const updatedData = {
+        username: req.body.username,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 8), // Cryptez le mot de passe
+        // Autres champs à mettre à jour...
+      };
+  
+      const [updated] = await User.update(updatedData, {
         where: { id: id }
       });
-
+  
       if (updated) {
-        const updatedUser = await User.findByPk(id);
+        // Récupérez l'utilisateur mis à jour avec les rôles
+        const updatedUser = await User.findByPk(id, { include: Role });
+  
+        // Mettez à jour les rôles si nécessaire
+        if (req.body.roles) {
+          const roles = await Role.findAll({
+            where: {
+              name: {
+                [Op.or]: req.body.roles
+              }
+            }
+          });
+  
+          await updatedUser.setRoles(roles);
+        }
+  
         res.send({ message: "L'utilisateur a été mis à jour avec succès.", data: updatedUser });
       } else {
         res.status(404).send({ message: `Impossible de mettre à jour l'utilisateur avec l'ID ${id}.` });
@@ -74,6 +103,7 @@ exports.findOne = async (req, res) => {
       });
     }
   };
+  
   exports.delete = async (req, res) => {
     try {
       const { id } = req.params;
@@ -92,4 +122,15 @@ exports.findOne = async (req, res) => {
       });
     }
   };
+  exports.create = async (req, res) => {
+    try {
+      const user = await User.create(req.body);
+      res.send({ message: "L'utilisateur a été créé avec succès.", data: user });
+    } catch (err) {
+      res.status(500).send({
+        message: err.message || "Une erreur s'est produite lors de la création de l'utilisateur."
+      });
+    }
+  }
+
 

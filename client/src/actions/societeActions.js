@@ -1,6 +1,6 @@
 // actions/societeActions.js
 
-import { FETCH_SOCIETE_FAILURE,FETCH_SOCIETE_SUCCESS } from "../constants/actionTypes";
+import { FETCH_SOCIETE_FAILURE,FETCH_SOCIETE_SUCCESS } from "../constants/societe.constant";
 
 export const fetchSocietes = () => async (dispatch) => {
   try {
